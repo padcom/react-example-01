@@ -1,17 +1,20 @@
-import dispatcher from '../dispatcher';
+import StatefulComponent from '../framework/stateful-component';
 import TitleStore from '../stores/title-store';
+import DataStore from '../stores/data-store';
 import * as TitleActions from '../actions/title-actions';
+import * as DataActions from '../actions/data-actions';
 
 import Grid from './grid';
 
-export default class App extends React.Component {
+export default class App extends StatefulComponent {
   constructor() {
-    super();
-    this.state = { title: "Hello, world!" };
-
-    // Event listeners for stores need to be bound to this context or else
-    // there is no guarantee which context they will be executed in
-    this.updateTitle = this.updateTitle.bind(this);
+    super({
+      events: [
+        { store: TitleStore, event: "title-changed", handler: "updateTitle" },
+        { store: DataStore, event: "data-changed", handler: "updateData" }
+      ]
+    });
+    this.state = { title: "Hello, world!", data: DataStore.getData() };
 
     // The FLUX flow is like this:
     //   1. TitleActions.titleChanged is called and dispatches an event with type "TITLE_CHANGED"
@@ -23,30 +26,26 @@ export default class App extends React.Component {
     this.index = 0;
     let f = () => {
       this.index++;
-      TitleActions.titleChanged("HELLO: " + this.index);
-      setTimeout(f, 0);
+      TitleActions.titleChanged("Iteration " + this.index);
+      DataActions.dataChanged(50);
+      setTimeout(f, 200);
     }
-    setTimeout(f, 0);
-  }
-
-  componentWillMount() {
-    TitleStore.on("title-changed", this.updateTitle);
-  }
-
-  componentWillUnmount() {
-    // event listener must be removed or else there will be a memory leak
-    TitleStore.removeListener("title-changed", this.updateTitle);
+    setTimeout(f, 200);
   }
 
   updateTitle() {
     this.setState({ title: TitleStore.getTitle() });
   }
 
+  updateData() {
+    this.setState({ data: DataStore.getData() });
+  }
+
   render() {
     return (
       <div>
         <h1>{this.state.title}</h1>
-        <Grid index={this.index} />
+        <Grid index={this.index} data={this.state.data}/>
       </div>
     );
   }

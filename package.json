@@ -23,6 +23,6 @@
     "lodash": "^4.13.1"
   },
   "dependencies": {
-    "flux": "^2.1.1"
+    "gulp-uglify": "^1.5.3"
   }
 }

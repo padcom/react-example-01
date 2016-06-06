@@ -1,8 +1,8 @@
 import dispatcher from '../framework/dispatcher';
 
-export function titleChanged(title) {
+export function dataChanged(amount) {
   dispatcher.dispatch({
-    type: "TITLE_CHANGED",
-    title
+    type: "DATA_CHANGED",
+    amount
   });
 }

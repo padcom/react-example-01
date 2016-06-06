@@ -39,12 +39,15 @@ gulp.task('compile:vendor', 'Create vendor.js with Bower packages', function() {
  */
 gulp.task('compile:main', 'Create index.js with application content', function() {
   var externals = _.flatten(_.map(bower.getBowerPackageIds(), bower.getBowerModule));
-//  var isProductionBuild = (process.env.NODE_ENV || 'development') === 'production';
-  return gulp
+  var isProductionBuild = (process.env.NODE_ENV || 'development') === 'production';
+  var stage = gulp
     .src('src/main/index.js')
     .pipe(plumber({ errorHandler: err => { console.log(err.message); this.emit('end'); } }))
-    .pipe(browserify({ transform: [ 'babelify' ], external: externals }))
-    .pipe(gulp.dest('target'));
+    .pipe(browserify({ transform: [ 'babelify' ], external: externals }));
+  if (isProductionBuild) {
+    stage = stage.pipe(uglify());
+  }
+  return stage.pipe(gulp.dest('target'));
 });
 
 /**

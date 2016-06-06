@@ -1,57 +1,26 @@
-export default class Grid extends React.Component {
-  constructor() {
-    super();
-    this.colcount = 25;
-    this.rowcount = 20;
-    this.rows = [];
-    for (let y = 0; y < this.rowcount; y++) {
-      let columns = [];
-      for (let x = 0; x < this.colcount; x++) {
-        columns.push({ key: (y * this.colcount + x), value: this.random(), cls: "" });
-      }
-      this.rows.push({ key: "row-" + y, columns: columns });
-    }
-  }
+import StatelessComponent from '../framework/stateless-component';
+import DataStore from '../stores/data-store';
 
-  clearCell(x, y) {
-    setTimeout(function() {
-      this.rows[y].columns[x].cls = "";
-    }.bind(this), 200);
-  }
-
-  random() {
-    return Math.round(Math.random() * 999) + 1;
-  }
-
-  randomize(count) {
-    for (let i = 0; i < count; i++) {
-      let x = Math.floor(Math.random() * this.colcount);
-      let y = Math.floor(Math.random() * this.rowcount);
-      let newValue = this.random();
-      this.rows[y].columns[x].cls = (this.rows[y].columns[x].value > newValue) ? 'red' : 'green';
-      this.rows[y].columns[x].value = newValue;
-      this.clearCell.bind(this)(x, y);
-    }
-  }
-
+export default class Grid extends StatelessComponent {
   render() {
+    // prepare header
     const headers = [<th key={"hdr"}></th>];
-    for (let i = 0; i < this.colcount; i++) {
+    for (let i = 0; i < this.props.data[0].columns.length; i++) {
       headers.push(<th key={"hdr-" + i}>{i + 1}</th>);
     }
-    this.randomize(100);
 
+    // prepare data rows
     const rows = [];
-    for(let y = 0; y < this.rowcount; y++) {
+    for(let y = 0; y < this.props.data.length; y++) {
       const row = [<th key={"header-" + y}>{y + 1}</th>]
-      for (let x = 0; x < this.colcount; x++) {
+      for (let x = 0; x < this.props.data[y].columns.length; x++) {
         const title = "I am cell " + (x + 1) + "/" + (y + 1);
-        const key = this.rows[y].columns[x].key;
-        const cls = this.rows[y].columns[x].cls;
-        const value = this.rows[y].columns[x].value
+        const key = this.props.data[y].columns[x].key;
+        const cls = this.props.data[y].columns[x].cls;
+        const value = this.props.data[y].columns[x].value
         row.push( <td key={key} title={title} class={cls}>{value}</td>);
       }
-      rows.push(<tr key={this.rows[y].key}>{row}</tr>);
+      rows.push(<tr key={this.props.data[y].key}>{row}</tr>);
     }
 
     return (
