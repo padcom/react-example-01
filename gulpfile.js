@@ -9,8 +9,6 @@ var stream = require('stream');
 
 var bower = require('./src/build/bower-utils');
 
-console.log(process.env.NODE_ENV);
-
 /**
  * Copy resources (html, css, images)
  */
@@ -55,12 +53,35 @@ gulp.task('compile:main', 'Create index.js with application content', function()
  */
 gulp.task('compile', 'Compile everything', [ 'copy-resources', 'compile:vendor', 'compile:main' ]);
 
+var backend;
+
+/**
+ * Stop backend
+ */
+gulp.task('backend:stop', 'Stop backend service', function(done) {
+  if (backend && backend.server.listening) {
+    backend.stop(done);
+  } else {
+    done();
+  }
+});
+
+/**
+ * Start backend
+ */
+gulp.task('backend:start', 'Start backend service', [ 'backend:stop' ], function(done) {
+  delete require.cache[require.resolve('./src/backend/app')];
+  backend = require('./src/backend/app');
+  backend.start(8001, done);
+});
+
 /**
  * Watch for changes and recompile
  */
-gulp.task('watch', 'Watch for file changes and execute appropriate task when changes are detected', [ 'compile' ], function() {
+gulp.task('watch', 'Watch for file changes and execute appropriate task when changes are detected', [ 'compile', 'backend:start' ], function() {
   gulp.watch([ 'src/main/**/*', '!**/*.js' ], [ 'copy-resources' ]);
   gulp.watch('src/main/**/*.js', [ 'compile:main' ]);
+  gulp.watch('src/backend/**/*.js', [ 'backend:start' ]);
   gulp.watch('bower.json', [ 'compile:vendor' ]);
 });
 

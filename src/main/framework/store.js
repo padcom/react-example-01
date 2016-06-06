@@ -8,5 +8,6 @@ export default class Store extends EventEmitter {
   }
 
   handle(action) {
+    // default action handler
   }
 }
