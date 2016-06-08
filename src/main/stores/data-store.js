@@ -3,23 +3,7 @@ import Store from '../framework/store';
 class DataStore extends Store {
   constructor() {
     super();
-    fetch("http://localhost:8001/data")
-      .then(data => data.json())
-      .then(data => {
-        console.log(data);
-        this.colcount = data[0].length;
-        this.rowcount = data.length;
-        this.rows = [];
-        for (let y = 0; y < this.rowcount; y++) {
-          let columns = [];
-          for (let x = 0; x < this.colcount; x++) {
-            columns.push({ key: (y * this.colcount + x), value: data[y][x], cls: "" });
-          }
-          this.rows.push({ key: "row-" + y, columns: columns });
-        }
-        this.emit("data-changed");
-      })
-      .catch(e => console.error(e))
+    this._initializeData('http://localhost:8001/data');
   }
 
   getData() {
@@ -34,6 +18,25 @@ class DataStore extends Store {
     }
   }
 
+  _initializeData(source) {
+    fetch(source)
+      .then(response => response.json())
+      .then(data => {
+        this.rows = [];
+        this.rowcount = data.length;
+        this.colcount = data.length > 0 ? data[0].length : 0;
+        for (let y = 0; y < this.rowcount; y++) {
+          let columns = [];
+          for (let x = 0; x < this.colcount; x++) {
+            columns.push({ key: (y * this.colcount + x), value: data[y][x], cls: "" });
+          }
+          this.rows.push({ key: "row-" + y, columns: columns });
+        }
+        this.emit("data-changed");
+      })
+      .catch(e => console.error(e))
+  }
+
   _clearCell(cells) {
     setTimeout(function() {
       for (let i = 0; i < cells.length; i++) {
@@ -46,7 +49,8 @@ class DataStore extends Store {
 
   _storeChangedData(data) {
     for (let i = 0; i < data.length; i++) {
-      const x = data[i].x, y = data[i].y;
+      const x = data[i].x;
+      const y = data[i].y;
       this.rows[y].columns[x].cls = (this.rows[y].columns[x].value > data[i].value) ? 'red' : 'green';
       this.rows[y].columns[x].value = data[i].value;
     }

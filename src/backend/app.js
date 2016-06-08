@@ -5,11 +5,14 @@ var WebSocketServer = require('ws').Server;
 var wss = new WebSocketServer({ server: server, path: '/events' });
 var express = require('express');
 
+
 // Global server state
+
 const colcount = 25;
 const rowcount = 20;
 const data = initializeData(colcount, rowcount);
 var index = 0;
+
 
 // WebSocket definiton
 
@@ -76,9 +79,11 @@ function calculateRandomNumbers(count) {
   let modifiedCells = []
 
   for (let i = 0; i < count; i++) {
-    let x = Math.floor(Math.random() * colcount);
-    let y = Math.floor(Math.random() * rowcount);
-    modifiedCells.push({ x, y, value: randomNumber() });
+    const x = Math.floor(Math.random() * colcount);
+    const y = Math.floor(Math.random() * rowcount);
+    const value = randomNumber();
+    data[y][x] = value;
+    modifiedCells.push({ x, y, value });
   }
 
   return modifiedCells;
@@ -86,9 +91,11 @@ function calculateRandomNumbers(count) {
 
 function feed() {
   wss.broadcast(JSON.stringify({ title: 'Hello, world! ' + (++index), data: calculateRandomNumbers((index % 50) + 1) }));
-  backgroundProcess = setTimeout(feed, 150);
+  backgroundProcess = setTimeout(feed, 200);
 };
 
+
+// Default export from this module
 
 module.exports = {
   server,
