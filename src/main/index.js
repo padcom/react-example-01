@@ -18,13 +18,13 @@ ReactDOM.render(<App/>, document.getElementById('react-output'));
 
 function listenForEvents(endpoint) {
   function reconnect() {
-    setTimeout(function() { listenForEvents(endpoint); }, 1000);
+    setTimeout(function() { listenForEvents(endpoint); }, 2000);
   }
 
   function process(data) {
     data = JSON.parse(data.data);
     TitleActions.titleChanged(data.title);
-    DataActions.dataChanged(data.dataChangeCount);
+    DataActions.dataChanged(data.data);
   }
 
   let events;

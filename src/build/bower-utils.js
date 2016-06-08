@@ -1,3 +1,4 @@
+var argv = require('yargs').argv;
 var _ = require('lodash');
 
 function unloadModule(module) {
@@ -19,11 +20,11 @@ function getBowerPackageIds() {
 function getBowerMains(module) {
   function makeMinFileName(file) {
     const env = process.env.NODE_ENV || 'development';
-//    if (env === 'production') {
+    if (env === 'production' || !argv.debug) {
       return './bower_components/' + module + '/' + file.substr(0, file.indexOf('.js')) + '.min.js';
-//    } else {
-//      return './bower_components/' + module + '/' + file;
-//    }
+    } else {
+      return './bower_components/' + module + '/' + file;
+    }
   }
 
   unloadModule('../../bower_components/' + module + '/bower.json');
