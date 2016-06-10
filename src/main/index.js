@@ -5,13 +5,13 @@ import App from './components/app';
 const rootReducer = Redux.combineReducers(reducers);
 
 // load initial data from server, create the store and render the app
-fetch("http://localhost:8001/data")
+fetch("http://" + window.location.hostname + ":8001/data")
   .then(response => response.json())
   .then(data => {
     const store = Redux.createStore(rootReducer, Redux.applyMiddleware(ReduxThunk.default));
     store.dispatch(actions.setData(data));
     ReactDOM.render(<ReactRedux.Provider store={store}><App/></ReactRedux.Provider>, document.getElementById('react-output'));
-    listenForEvents(store, 'ws://localhost:8001/events');
+    listenForEvents(store, 'ws://' + window.location.hostname + ':8001/events');
   })
 
 
