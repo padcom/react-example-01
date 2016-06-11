@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Counter from './counter';
 import DataGrid from './data-grid';
 
 const App = ({
   title
 }) => (
   <div>
-    <h1 class={'title'}>{title}</h1>
+    <h1 class={'title'}>{title}, <Counter /></h1>
     <DataGrid />
   </div>
 )
