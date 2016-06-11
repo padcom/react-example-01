@@ -2,7 +2,7 @@ import { cloneDeep } from 'lodash';
 
 // state.title
 
-export const title = (state = 'Hello', action) => {
+export const title = (state = '', action) => {
   switch(action.type) {
     case 'TITLE_CHANGED':
       return action.title;

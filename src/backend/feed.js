@@ -7,7 +7,7 @@ let backgroundProcess;
 let index = 0;
 
 function feed(data) {
-  wss.broadcast(JSON.stringify({ title: 'Hello, world! ' + (++index), data: data.randomize(10) }));
+  wss.broadcast(JSON.stringify({ title: 'Server: ' + (++index), data: data.randomize(10) }));
   backgroundProcess = setTimeout(() => feed(data), 1000);
 };
 

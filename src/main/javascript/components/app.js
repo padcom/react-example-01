@@ -7,7 +7,7 @@ const App = ({
   title
 }) => (
   <div>
-    <h1 class={'title'}>{title}, <Counter /></h1>
+    <h1 class={'title'}><Counter />, {title}</h1>
     <DataGrid />
   </div>
 )
