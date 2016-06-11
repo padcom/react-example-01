@@ -7,8 +7,14 @@ const mode = process.env.NODE_ENV || 'development';
 
 const config = {
   entry: {
-    app: [ './src/main/index' ],
-    vendor: [ 'react', 'react-dom', 'react-redux', 'redux', 'redux-thunk', 'lodash', 'html-entities', 'ansi-html', 'ansi-regex', 'querystring', 'strip-ansi' ]
+    app: [
+      './src/main/javascript/index',
+      './src/main/styles/index.less'
+    ],
+    vendor: [
+      'react', 'react-dom', 'react-redux', 'redux', 'redux-thunk', 'lodash',
+      'html-entities', 'ansi-html', 'ansi-regex', 'querystring', 'strip-ansi'
+    ]
   },
   output: {
     path: __dirname + '/dist',
@@ -23,7 +29,15 @@ const config = {
     loaders: [ {
       test: /\.js$/,
       loaders: [ 'react-hot', 'babel' ],
-      include: __dirname + '/src/main'
+      include: __dirname + '/src/main/javascript'
+    }, {
+      test: /\.less$/,
+      loaders: [ 'style', 'css', 'less' ],
+      include: __dirname + '/src/main/styles'
+    }, {
+      test: /\.(gif|png|jpg|jpeg|svg)($|\?)/,
+      loaders: [ 'url?limit=5000&hash=sha512&digest=hex&size=16&name=resources/[name]-[hash].[ext]' ],
+      include: __dirname + '/src/main/assets'
     } ]
   },
 }
