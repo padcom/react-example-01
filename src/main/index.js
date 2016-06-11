@@ -1,17 +1,24 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import thunk from 'redux-thunk';
+import { Provider } from 'react-redux';
+
 import * as reducers from './reducers';
 import * as actions from './actions';
 import App from './components/app';
 
-const rootReducer = Redux.combineReducers(reducers);
+// define the root reducer used to initialize the store
+const rootReducer = combineReducers(reducers);
 
 // load initial data from server, create the store and render the app
-fetch("http://" + window.location.hostname + ":8001/data")
+fetch('http://' + window.location.host + '/data')
   .then(response => response.json())
   .then(data => {
-    const store = Redux.createStore(rootReducer, Redux.applyMiddleware(ReduxThunk.default));
+    const store = createStore(rootReducer, applyMiddleware(thunk));
     store.dispatch(actions.setData(data));
-    ReactDOM.render(<ReactRedux.Provider store={store}><App/></ReactRedux.Provider>, document.getElementById('react-output'));
-    listenForEvents(store, 'ws://' + window.location.hostname + ':8001/events');
+    ReactDOM.render(<Provider store={store}><App/></Provider>, document.getElementById('root'));
+    listenForEvents(store, 'ws://' + window.location.host + '/events');
   })
 
 

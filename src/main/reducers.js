@@ -1,8 +1,10 @@
+import { cloneDeep } from 'lodash';
+
 // state.title
 
-export const title = (state = "Hello", action) => {
+export const title = (state = 'Hello', action) => {
   switch(action.type) {
-    case "TITLE_CHANGED":
+    case 'TITLE_CHANGED':
       return action.title;
     default:
       return state;
@@ -18,9 +20,9 @@ const convertDataFromServer = (data) => {
   for (let y = 0; y < rowcount; y++) {
     const columns = [];
     for (let x = 0; x < colcount; x++) {
-      columns.push({ key: (y * colcount + x), value: data[y][x], cls: "" });
+      columns.push({ key: (y * colcount + x), value: data[y][x], cls: '' });
     }
-    result.push({ key: "row-" + y, columns: columns });
+    result.push({ key: 'row-' + y, columns: columns });
   }
   return result;
 }
@@ -40,21 +42,21 @@ const applyDataDelta = (data, delta) => {
 const clearColors = (data, delta) => {
   const result = _.cloneDeep(data);
   for (let i = 0; i < delta.length; i++) {
-    result[delta[i].y].columns[delta[i].x].cls = "";
+    result[delta[i].y].columns[delta[i].x].cls = '';
   }
   return result;
 }
 
 export const data = (state = [], action) => {
   switch(action.type) {
-    case "DATA_RECEIVED":
+    case 'DATA_RECEIVED':
       return convertDataFromServer(action.data);
-    case "DATA_CHANGED":
+    case 'DATA_CHANGED':
       if (state.length > 0)
         return applyDataDelta(state, action.data);
       else
         return state;
-    case "CLEAR_COLORS":
+    case 'CLEAR_COLORS':
       return clearColors(state, action.data);
     default:
       return state;
