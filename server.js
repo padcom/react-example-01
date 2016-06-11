@@ -23,7 +23,7 @@ app.use(api.cors);
 app.get('/data', api.handler(data.data));
 
 // entry point and static content
-app.use(express.static('src/main/assets'));
+app.use(express.static('src/main'));
 
 // start the server
 server.on('request', app);

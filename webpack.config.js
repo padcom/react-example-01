@@ -16,7 +16,7 @@ const config = {
     publicPath: '/'
   },
   plugins: [
-    new CopyWebpackPlugin([ { from: 'src/main/assets/index.html' } ])
+    new CopyWebpackPlugin([ { from: 'src/main/index.html' } ])
   ],
   module: {
     loaders: [ {
