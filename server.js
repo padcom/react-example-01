@@ -8,14 +8,14 @@ const compiler = webpack(config);
 // webpack with hot reloading
 app.use(require('webpack-dev-middleware')(compiler, {
   publicPath: config.output.publicPath,
-  stats: { colors: true, modules: false, chunks: false }
+  stats: { colors: true, modules: false, chunks: false, timings: true }
 }));
 app.use(require('webpack-hot-middleware')(compiler, {
   reload: true
 }));
 
 // application
-const data = require('./src/backend/data').init(10, 10);
+const data = require('./src/backend/data').init(15, 10);
 const api = require('./src/backend/api');
 const feed = require('./src/backend/feed').init(server);
 
