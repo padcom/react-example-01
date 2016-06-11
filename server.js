@@ -8,7 +8,7 @@ const compiler = webpack(config);
 // webpack with hot reloading
 app.use(require('webpack-dev-middleware')(compiler, {
   publicPath: config.output.publicPath,
-  stats: { colors: true }
+  stats: { colors: true, modules: false, chunks: false }
 }));
 app.use(require('webpack-hot-middleware')(compiler, {
   reload: true
