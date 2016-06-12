@@ -9,7 +9,9 @@ const DataGrid = ({
     <thead>
       <tr>
         <th/>
-        { columns.map((cell, index) => <th key={cell.key}>{index + 1}</th>) }
+        { columns.map((cell, index) =>
+          <th key={cell.key}>{index + 1}</th>
+        ) }
       </tr>
     </thead>
     <tbody>
@@ -17,7 +19,7 @@ const DataGrid = ({
         <tr key={row.key}>
           <th>{rowIndex + 1}</th>
           { row.columns.map((cell, cellIndex) =>
-              <td key={cell.key} class={cell.cls} title={ 'Cell ' + (rowIndex + 1) + '/' + (cellIndex + 1) }>{cell.value}</td>
+            <td key={cell.key} class={cell.cls} title={ 'Cell ' + (rowIndex + 1) + '/' + (cellIndex + 1) }>{cell.value}</td>
           ) }
         </tr>
       ) }
