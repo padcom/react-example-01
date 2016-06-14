@@ -1,18 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Counter from './counter';
-import DataGrid from './data-grid';
-import Title from './title';
 
-const App = ({
+const Title = ({
   title
 }) => (
-  <div>
-    <Title />
-    <DataGrid />
-  </div>
-)
+  <h1 class='title'><Counter />, {title}</h1>
+);
 
 export default connect(
   state => ({ title: state.title })
-)(App);
+)(Title);
