@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import thunk from 'redux-thunk';
 
 import * as reducers from './reducers';
@@ -7,7 +7,12 @@ import * as reducers from './reducers';
 const rootReducer = combineReducers(reducers);
 
 // define used middleware
-const middleware = [ thunk ];
+const middleware = [
+  thunk
+];
+
+// define the use of Redux DevTools
+const devtools = window.devToolsExtension ? window.devToolsExtension() : undefined;
 
 // create and export the store
-export default createStore(rootReducer, applyMiddleware(...middleware));
+export default createStore(rootReducer, undefined, compose(applyMiddleware(...middleware), devtools));
