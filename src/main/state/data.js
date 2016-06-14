@@ -6,9 +6,9 @@ export default {
     data
   }),
   applyDelta: (delta) => (dispatch) => {
-    dispatch({ type: 'DATA_CHANGED', data: delta });
+    dispatch({ type: 'DATA_CHANGED', delta });
     delay(50).then(() => {
-      dispatch({ type: 'CLEAR_COLORS', data: delta });
+      dispatch({ type: 'CLEAR_COLORS', delta });
     })
   }
 }
@@ -19,11 +19,11 @@ export const reducer = (state = [], action) => {
       return convertDataFromServer(action.data);
     case 'DATA_CHANGED':
       if (state.length > 0)
-        return applyDataDelta(state, action.data);
+        return applyDataDelta(state, action.delta);
       else
         return state;
     case 'CLEAR_COLORS':
-      return clearColors(state, action.data);
+      return clearColors(state, action.delta);
     default:
       return state;
   }
