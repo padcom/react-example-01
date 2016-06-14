@@ -1,4 +1,5 @@
-import * as actions from './actions';
+import TitleActions from '../state/title';
+import DataActions from '../state/data';
 
 // Data receiver over web socket
 export default function listenForEvents(store, endpoint) {
@@ -8,8 +9,8 @@ export default function listenForEvents(store, endpoint) {
 
   function process(data) {
     data = JSON.parse(data.data);
-    store.dispatch(actions.titleChanged(data.title));
-    store.dispatch(actions.applyDelta(data.data));
+    store.dispatch(TitleActions.titleChanged(data.title));
+    store.dispatch(DataActions.applyDelta(data.data));
   }
 
   try {

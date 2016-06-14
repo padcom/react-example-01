@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { cloneDeep } from 'lodash';
 
 const DataGrid = ({
   data,
   columns
 }) => (
-  <table>
+  <table class="data-grid">
     <thead>
       <tr>
         <th/>

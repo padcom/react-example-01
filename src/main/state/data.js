@@ -1,17 +1,35 @@
 import { cloneDeep } from 'lodash';
 
-// state.title
+export default {
+  setData: (data) => ({
+    type: 'DATA_RECEIVED',
+    data
+  }),
+  applyDelta: (delta) => (dispatch) => {
+    dispatch({ type: 'DATA_CHANGED', data: delta });
+    delay(50).then(() => {
+      dispatch({ type: 'CLEAR_COLORS', data: delta });
+    })
+  }
+}
 
-export const title = (state = '', action) => {
+export const reducer = (state = [], action) => {
   switch(action.type) {
-    case 'TITLE_CHANGED':
-      return action.title;
+    case 'DATA_RECEIVED':
+      return convertDataFromServer(action.data);
+    case 'DATA_CHANGED':
+      if (state.length > 0)
+        return applyDataDelta(state, action.data);
+      else
+        return state;
+    case 'CLEAR_COLORS':
+      return clearColors(state, action.data);
     default:
       return state;
   }
 }
 
-// state.data
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 const convertDataFromServer = (data) => {
   const result = [];
@@ -45,20 +63,4 @@ const clearColors = (data, delta) => {
     result[delta[i].y].columns[delta[i].x].cls = '';
   }
   return result;
-}
-
-export const data = (state = [], action) => {
-  switch(action.type) {
-    case 'DATA_RECEIVED':
-      return convertDataFromServer(action.data);
-    case 'DATA_CHANGED':
-      if (state.length > 0)
-        return applyDataDelta(state, action.data);
-      else
-        return state;
-    case 'CLEAR_COLORS':
-      return clearColors(state, action.data);
-    default:
-      return state;
-  }
 }

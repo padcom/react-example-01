@@ -7,8 +7,8 @@ const mode = process.env.NODE_ENV || 'development';
 
 const config = {
   entry: [
-    './src/main/javascript/index',
-    './src/main/styles/index.less'
+    './src/main/index',
+    './src/main/index.less'
   ],
   output: {
     path: __dirname + '/dist',
@@ -22,15 +22,15 @@ const config = {
     loaders: [ {
       test: /\.js$/,
       loaders: [ 'react-hot', 'babel' ],
-      include: __dirname + '/src/main/javascript'
+      include: __dirname + '/src/main'
     }, {
       test: /\.less$/,
       loaders: [ 'style', 'css', 'less' ],
-      include: __dirname + '/src/main/styles'
+      include: __dirname + '/src/main'
     }, {
       test: /\.(gif|png|jpg|jpeg|svg)($|\?)/,
       loaders: [ 'url?limit=5000&hash=sha512&digest=hex&size=16&name=resources/[name]-[hash].[ext]' ],
-      include: __dirname + '/src/main/assets'
+      include: __dirname + '/src/main'
     } ]
   },
 }
