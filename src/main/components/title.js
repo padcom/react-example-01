@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Counter from './counter';
+import Counter from 'components/counter';
 
 const Title = ({
   title

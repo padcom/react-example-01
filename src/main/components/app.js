@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Counter from './counter';
-import DataGrid from './data-grid';
-import Title from './title';
+import Counter from 'components/counter';
+import DataGrid from 'components/data-grid';
+import Title from 'components/title';
 
 const App = ({
   title

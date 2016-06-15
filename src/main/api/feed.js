@@ -1,5 +1,5 @@
-import TitleActions from '../state/title';
-import DataActions from '../state/data';
+import TitleActions from 'state/title';
+import DataActions from 'state/data';
 
 // Data receiver over web socket
 export default function listenForEvents(store, endpoint) {

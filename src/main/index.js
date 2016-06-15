@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import store from './store';
-import App from './components/app';
-import DataActions from './state/data.js';
-import listenForEvents from './api/feed';
+import App from 'components/app';
+import DataActions from 'state/data';
+import listenForEvents from 'api/feed';
 
 var host = window.location.host || 'localhost:3000';
 
