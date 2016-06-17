@@ -25,6 +25,7 @@
     "file-loader": "^0.8.5",
     "html-webpack-plugin": "^2.20.0",
     "jsdom": "^9.2.1",
+    "jshint": "^2.9.2",
     "json-loader": "^0.5.4",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
@@ -46,6 +47,41 @@
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",
     "redux": "^3.5.2",
+    "redux-promise": "^0.5.3",
     "redux-thunk": "^2.1.0"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "ecmaFeatures": {
+      "jsx": true,
+      "modules": true
+    },
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "parser": "babel-eslint",
+    "rules": {
+      "quotes": [
+        2,
+        "single"
+      ],
+      "strict": [
+        2,
+        "never"
+      ],
+      "complexity": [
+        "error",
+        {
+          "max": 5
+        }
+      ],
+      "react/jsx-uses-react": 2,
+      "react/jsx-uses-vars": 2,
+      "react/react-in-jsx-scope": 2
+    },
+    "plugins": [
+      "react"
+    ]
   }
 }

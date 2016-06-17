@@ -1,64 +1,48 @@
 import { cloneDeep } from 'lodash';
+import { mapActionToReducer } from 'utils/reducer-creator';
+import { delay } from 'utils/delay';
 
 export default {
-  setData: (data) => ({
+  loadInitialData: host => ({
     type: 'DATA_RECEIVED',
-    data
+    payload: fetch('http://' + host + '/data').then(response => response.json())
   }),
-  applyDelta: (delta) => (dispatch) => {
-    dispatch({ type: 'DATA_CHANGED', delta });
-    delay(50).then(() => {
-      dispatch({ type: 'CLEAR_COLORS', delta });
-    })
+  applyDelta: delta => dispatch => {
+    dispatch({ type: 'DATA_CHANGED', payload: delta });
+    dispatch({ type: 'CLEAR_COLORS', payload: delay(100).then(() => delta) })
   }
 }
 
-export const reducer = (state = [], action) => {
-  switch(action.type) {
-    case 'DATA_RECEIVED':
-      return convertDataFromServer(action.data);
-    case 'DATA_CHANGED':
-      if (state.length > 0)
-        return applyDataDelta(state, action.delta);
-      else
-        return state;
-    case 'CLEAR_COLORS':
-      return clearColors(state, action.delta);
-    default:
-      return state;
-  }
+export const reducer = mapActionToReducer({
+  'DATA_RECEIVED': (state, action) => convertDataFromServer(action.payload),
+  'DATA_CHANGED' : (state, action) => state.length > 0 ? applyDataDelta(state, action.payload) : state,
+  'CLEAR_COLORS' : (state, action) => clearColors(state, action.payload)
+});
+
+function convertDataFromServer(data) {
+  return data.map((row, y) => ({
+    key: 'row-' + y,
+    columns: row.map((column, x) => ({
+      key: y * row.length + x,
+      value: data[y][x],
+      cls: ''
+    }))
+  }));
 }
 
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-const convertDataFromServer = (data) => {
-  const result = [];
-  const rowcount = data.length;
-  const colcount = data.length > 0 ? data[0].length : 0;
-  for (let y = 0; y < rowcount; y++) {
-    const columns = [];
-    for (let x = 0; x < colcount; x++) {
-      columns.push({ key: (y * colcount + x), value: data[y][x], cls: '' });
-    }
-    result.push({ key: 'row-' + y, columns: columns });
-  }
-  return result;
-}
-
-const applyDataDelta = (data, delta) => {
-  const result = _.cloneDeep(data);
+function applyDataDelta(data, delta) {
+  const result = cloneDeep(data);
   for (let i = 0; i < delta.length; i++) {
     const x = delta[i].x;
     const y = delta[i].y;
-
     result[y].columns[x].cls = (result[y].columns[x].value > delta[i].value) ? 'red' : 'green';
     result[y].columns[x].value = delta[i].value;
   }
   return result;
 }
 
-const clearColors = (data, delta) => {
-  const result = _.cloneDeep(data);
+function clearColors(data, delta) {
+  const result = cloneDeep(data);
   for (let i = 0; i < delta.length; i++) {
     result[delta[i].y].columns[delta[i].x].cls = '';
   }

@@ -5,7 +5,7 @@ import Counter from 'components/counter';
 const Title = ({
   title
 }) => (
-  <h1 class='title'><Counter />, {title}</h1>
+  <h1 class="title"><Counter />, {title}</h1>
 );
 
 export default connect(

@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import thunk from 'redux-thunk';
+import promise from 'redux-promise';
 
 // import all reducers into an object so that they can be easily used
 // to create the store
@@ -9,7 +10,7 @@ import * as reducers from './reducers';
 const rootReducer = combineReducers(reducers);
 
 // define used middleware
-let middleware = applyMiddleware(thunk);
+let middleware = applyMiddleware(thunk, promise);
 
 // define the use of Redux DevTools
 if (window.devToolsExtension) {

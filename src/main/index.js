@@ -9,11 +9,14 @@ import listenForEvents from 'api/feed';
 
 var host = window.location.host || 'localhost:3000';
 
+global.window.App = {
+  store: store,
+  actions: {
+    data: DataActions
+  }
+}
+
 // load initial data from server, create the store and render the app
-fetch('http://' + host + '/data')
-  .then(response => response.json())
-  .then(data => {
-    store.dispatch(DataActions.setData(data));
-    ReactDOM.render(<Provider store={store}><App/></Provider>, document.getElementById('root'));
-    listenForEvents(store, 'ws://' + host + '/events');
-  })
+store.dispatch(DataActions.loadInitialData(host));
+ReactDOM.render(<Provider store={store}><App/></Provider>, document.getElementById('root'));
+listenForEvents(store, 'ws://' + host + '/events');

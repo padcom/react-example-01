@@ -7,7 +7,7 @@ export default class Counter extends React.Component {
   }
   render() {
     return (
-      <span>Client: { ++this.state.counter }</span>
+      <span class="counter">Client: { ++this.state.counter }</span>
     )
   }
 }

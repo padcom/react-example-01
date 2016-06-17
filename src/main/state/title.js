@@ -1,15 +1,12 @@
+import { mapActionToReducer } from 'utils/reducer-creator';
+
 export default {
   titleChanged: (title) => ({
     type: 'TITLE_CHANGED',
-    title
+    payload: title
   })
 }
 
-export const reducer = (state = '', action) => {
-  switch(action.type) {
-    case 'TITLE_CHANGED':
-      return action.title;
-    default:
-      return state;
-  }
-}
+export const reducer = mapActionToReducer({
+  'TITLE_CHANGED': (state, action) => action.payload
+});
