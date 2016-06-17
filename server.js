@@ -21,7 +21,9 @@ const feed = require('./src/backend/feed').init(server);
 
 app.use(api.cors);
 app.get('/data', api.handler(data.data));
-
+app.get('/*', function(req, res) {
+  res.sendFile(__dirname + '/src/main/index.html');
+});
 // entry point and static content
 app.use(express.static('src/main'));
 
