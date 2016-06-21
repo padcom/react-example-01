@@ -1,11 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Counter from 'components/counter';
+import Counter from '../components/counter';
 
 const Title = ({
   title
 }) => (
-  <h1 class="title"><Counter />, {title}</h1>
+  <div>
+    <h1 class="title"><Counter />, {title}</h1>
+  </div>
 );
 
 export default connect(

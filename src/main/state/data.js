@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash';
-import { mapActionToReducer } from 'utils/reducer-creator';
+import { mapActionToReducer } from 'utils/redux-reducer';
 import { delay } from 'utils/delay';
 
 export default {
@@ -9,7 +9,7 @@ export default {
   }),
   applyDelta: delta => dispatch => {
     dispatch({ type: 'DATA_CHANGED', payload: delta });
-    dispatch({ type: 'CLEAR_COLORS', payload: delay(100).then(() => delta) })
+    dispatch({ type: 'CLEAR_COLORS', payload: delay(1000).then(() => delta) })
   }
 }
 

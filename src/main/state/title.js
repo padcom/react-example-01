@@ -1,4 +1,4 @@
-import { mapActionToReducer } from 'utils/reducer-creator';
+import { mapActionToReducer } from 'utils/redux-reducer';
 
 export default {
   titleChanged: (title) => ({
