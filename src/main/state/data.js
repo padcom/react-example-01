@@ -9,7 +9,7 @@ export default {
   }),
   applyDelta: delta => dispatch => {
     dispatch({ type: 'DATA_CHANGED', payload: delta });
-    dispatch({ type: 'CLEAR_COLORS', payload: delay(1000).then(() => delta) })
+    dispatch({ type: 'CLEAR_COLORS', payload: delay(200).then(() => delta) })
   }
 }
 

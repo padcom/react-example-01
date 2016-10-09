@@ -15,7 +15,7 @@ app.use(require('webpack-hot-middleware')(compiler, {
 }));
 
 // application
-const data = require('./src/backend/data').init(15, 10);
+const data = require('./src/backend/data').init(25, 20);
 const api = require('./src/backend/api');
 const feed = require('./src/backend/feed').init(server);
 

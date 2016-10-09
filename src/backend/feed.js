@@ -8,7 +8,7 @@ let index = 0;
 
 function feed(data) {
   wss.broadcast(JSON.stringify({ title: 'Server: ' + (++index), data: data.randomize((index % 50) + 1) }));
-  backgroundProcess = setTimeout(() => feed(data), 5000);
+  backgroundProcess = setTimeout(() => feed(data), 500);
 };
 
 function stop() {
